@@ -34,7 +34,7 @@ const AddEventForm: React.FC = () => {
     if (id) {
       updateEvent(id, { ...data, id });
     } else {
-      addEvent(data);
+      addEvent({...data,id:""});
     }
     console.log(data)
     navigate("/");
