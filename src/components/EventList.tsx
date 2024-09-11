@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import '../index.css'; // Assuming you will define the background image in this CSS file
 
 const EventList: React.FC = () => {
+  
   const { events } = useEventContext();
   const navigate = useNavigate();
   

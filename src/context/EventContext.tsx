@@ -18,7 +18,12 @@ interface EventContextType {
   deleteEvent: (id: string) => void;
 }
 
-const EventContext = createContext<EventContextType | null>(null);
+const EventContext = createContext<EventContextType >({
+  events: [],
+  addEvent: () => {},
+  updateEvent: () => {},
+  deleteEvent: () => {}
+});
 
 export const useEventContext = () => useContext(EventContext);
 
