@@ -13,7 +13,6 @@ function App() {
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/add" element={<AddEventForm />} />
         <Route path="/update/:id" element={<AddEventForm />} />
-        {/* Add other routes as needed */}
       </Routes>
     </Router>
     </EventProvider>

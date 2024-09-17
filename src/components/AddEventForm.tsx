@@ -42,7 +42,7 @@ const AddEventForm: React.FC = () => {
 
   return (
     <div className="relative flex bg-cover bg-center min-h-screen bg-opacity-75" style={{ backgroundImage: `url('https://thumbs.6sqft.com/wp-content/uploads/2021/07/13123945/The-Rooftop-at-Pier-17-concert.jpg?w=2000&format=webp')` }}>
-    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg w-full m-auto p-8 bg-white opacity-90 shadow-md rounded-lg border border-gray-200 space-y-6">
+    <form data-testid="form-id" onSubmit={handleSubmit(onSubmit)} className="max-w-lg w-full m-auto p-8 bg-white opacity-90 shadow-md rounded-lg border border-gray-200 space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Event Name</label>
         <input 
@@ -54,8 +54,9 @@ const AddEventForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
+        <label  className="block text-sm font-medium text-gray-700 mb-1">Date & Time</label>
         <input 
+          data-testid="date-id"
           type="datetime-local" 
           {...register("dateTime", { required: true })} 
           className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

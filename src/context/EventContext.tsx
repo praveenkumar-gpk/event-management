@@ -38,7 +38,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       setEvents(eventList);
     };
     fetchEvents();
-    console.log(events)
+    
   }, []);
 
   const addEvent = async (newEvent: Event) => {

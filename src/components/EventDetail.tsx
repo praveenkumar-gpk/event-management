@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventContext } from "../context/EventContext";
-import '../index.css'; // Assuming this includes custom animation classes
+
 
 const EventDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +10,7 @@ const EventDetail: React.FC = () => {
   const event = events.find((e) => e.id === id);
 
   if (!event) return <div>Event not found</div>;
+  console.log(events)
 
   return (
     <div className="relative bg-cover flex bg-center min-h-screen bg-opacity-75" 

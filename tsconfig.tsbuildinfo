@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/firebase.ts","./src/main.tsx","./src/setuptests.ts","./src/vite-env.d.ts","./src/components/addeventform.tsx","./src/components/components.test.tsx","./src/components/eventdetail.tsx","./src/components/eventlist.tsx","./src/context/eventcontext.tsx"],"errors":true,"version":"5.6.2"}

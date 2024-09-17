@@ -1,7 +1,6 @@
 import React from "react";
 import { useEventContext } from "../context/EventContext";
 import { useNavigate } from "react-router-dom";
-import '../index.css'; // Assuming you will define the background image in this CSS file
 
 const EventList: React.FC = () => {
   
