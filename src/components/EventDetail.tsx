@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEventContext } from "../context/EventContext";
+import '../index.css'
 
 
 const EventDetail: React.FC = () => {
@@ -13,8 +14,7 @@ const EventDetail: React.FC = () => {
   console.log(events)
 
   return (
-    <div className="relative bg-cover flex bg-center min-h-screen bg-opacity-75" 
-         style={{ backgroundImage: `url('https://townsquare.media/site/185/files/2017/05/concert-crowd-ThinkstockPhotos-577332304.jpg?w=980&q=75')` }}>
+    <div className="relative bg-cover flex bg-center min-h-screen bg-opacity-75 bg-custom-details">
       <div className="absolute inset-0 bg-black bg-opacity-40 animate-fadeIn"></div>
 
       <div className="container m-auto relative max-w-lg p-8 bg-white bg-opacity-90 shadow-lg rounded-lg border border-gray-200 opacity-90 animate-slideUpSlow z-10">

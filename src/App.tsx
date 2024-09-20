@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import EventList from "./components/EventList";
 import EventDetail from "./components/EventDetail";
-import AddEventForm from "./components/AddEventForm";
+import AddEventForm from "./components/EventForm";
 import { EventProvider } from "./context/EventContext";
 
 function App() {

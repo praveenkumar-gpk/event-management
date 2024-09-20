@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-custom-outer{
+    background-image: url('./images/bg-outer.png');
+}
+.bg-custom-details{
+    background-image: url('./images/bg-detail.png');
+}

@@ -1,15 +1,22 @@
 import React from "react";
 import { useEventContext } from "../context/EventContext";
 import { useNavigate } from "react-router-dom";
+import '../index.css'
 
-const EventList: React.FC = () => {
+const EventList = () => {
   
-  const { events } = useEventContext();
+  const { events,loading } = useEventContext();
   const navigate = useNavigate();
+  console.log (events.sort((a,b)=>{
+    if (a.dateTime>b.dateTime) return 1;
+    else if (a.dateTime<b.dateTime) return -1;
+    return 0
+  })
+  )
   
 
-  return (
-    <div className="relative bg-cover bg-center min-h-screen bg-opacity-75" style={{ backgroundImage: `url('https://thumbs.6sqft.com/wp-content/uploads/2021/07/13123945/The-Rooftop-at-Pier-17-concert.jpg?w=2000&format=webp')` }}>      
+  return loading?( <div className="relative text-center my-auto bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">Loading...</div>):(
+    <div className="relative bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">      
       <div className="relative container mx-auto max-w-6xl p-8 bg-white bg-opacity-40 rounded-lg shadow-md animate-slideUp">
         <div className="mb-6 text-right">
           <button 
@@ -21,7 +28,7 @@ const EventList: React.FC = () => {
         </div>
 
         <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {events.map((event: { id: React.Key | null | undefined; name: React.ReactNode; dateTime: string | Date; location: React.ReactNode; }) => (
+          {events.map((event: { id: string; name: string; dateTime: string; location: string; }) => (
             <li 
               key={event.id} 
               className="bg-gray-50 shadow-sm rounded-lg p-6 border border-gray-200 bg-opacity-70 transition duration-300 transform hover:scale-105 hover:shadow-lg cursor-pointer animate-fadeInUp"
