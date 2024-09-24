@@ -26,7 +26,6 @@ export const useEventContext = () => useContext(EventContext);
 
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [loading,setLoading] = useState(false)
-  const [error,setError] = useState({})
   const [events, setEvents] = useState<Event[]>([]);
   const eventCollection = collection(db, "events");
 
@@ -72,6 +71,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       location: updatedEvent.location,
       capacity: updatedEvent.capacity,
       image:updatedEvent.image,
+      description:updatedEvent.description
     });
     setEvents(prevEvents => prevEvents.map(event => event.id === id ? updatedEvent : event));
     setLoading(false)

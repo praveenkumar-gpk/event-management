@@ -12,12 +12,18 @@
   },
   "dependencies": {
     "@testing-library/user-event": "^14.5.2",
+    "dompurify": "^3.1.6",
+    "draft-js": "^0.11.7",
     "firebase": "^10.13.1",
     "jest-environment-jsdom": "^29.7.0",
+    "quill": "^2.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.53.0",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.26.2",
+    "slate": "^0.103.0",
+    "slate-react": "^0.110.1",
     "vitest": "^2.0.5"
   },
   "devDependencies": {
@@ -28,6 +34,7 @@
     "@eslint/js": "^9.9.0",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.0.1",
+    "@types/draft-js": "^0.11.18",
     "@types/jest": "^29.5.13",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

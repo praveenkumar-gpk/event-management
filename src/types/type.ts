@@ -1,3 +1,4 @@
+
 export interface Event {
     id: string;
     name: string;
@@ -5,4 +6,5 @@ export interface Event {
     location: string;
     capacity: number;
     image:string;
+    description:string;
 }
