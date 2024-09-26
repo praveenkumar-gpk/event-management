@@ -41,12 +41,14 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const queryClient = useQueryClient();
 
   // Fetch events using useQuery
-  const { data: events = [], isLoading,isError,error } = useQuery<Event[], Error>({
+  const { data: events=[], isLoading,isError } = useQuery<Event[], Error>({
     queryKey: ["events"],
     queryFn: async () => {
       const eventCollection = collection(db, "events");
       const eventSnapshot = await getDocs(eventCollection);     
-      return eventSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Event[];
+      const newData =  eventSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Event[];  
+      return newData
+       
     },
   });
   
