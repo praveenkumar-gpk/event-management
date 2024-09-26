@@ -6,10 +6,10 @@ import { Event } from "../types/type";
 
 const EventList = () => {
 
-  const { events,isLoading } = useEventContext();
+  const { events,isLoading,isError } = useEventContext();
   const navigate = useNavigate();
 
-  
+  if (isError) return<div>Something Went Wrong...</div>
 
   return isLoading ? (<div className="relative text-center my-auto bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">Loading...</div>) : (
     <div className="relative bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">

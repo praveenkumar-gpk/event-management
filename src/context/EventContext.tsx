@@ -21,6 +21,7 @@ interface EventContextType {
   updateEvent: (id: string, updatedEvent: Event) => Promise<any>;
   deleteEvent: (id: string) => Promise<any>;
   isLoading:boolean;
+  isError:boolean;
 }
 
 const EventContext = createContext<EventContextType>({
@@ -28,7 +29,8 @@ const EventContext = createContext<EventContextType>({
   addEvent: async () => {},
   updateEvent: async () => {},
   deleteEvent: async () => {},
-  isLoading:true
+  isLoading:true,
+  isError:false
 });
 
 // UseEventContext Hook
@@ -111,7 +113,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <EventContext.Provider value={{ events, addEvent, updateEvent, deleteEvent,isLoading }}>
+    <EventContext.Provider value={{ events, addEvent, updateEvent, deleteEvent,isLoading,isError }}>
       {children}
     </EventContext.Provider>
   );
