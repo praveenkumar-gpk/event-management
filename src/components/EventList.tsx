@@ -2,15 +2,16 @@ import React from "react";
 import { useEventContext } from "../context/EventContext";
 import { useNavigate } from "react-router-dom";
 import '../index.css'
+import { Event } from "../types/type";
 
 const EventList = () => {
 
-  const { events, loading } = useEventContext();
+  const { events,isLoading } = useEventContext();
   const navigate = useNavigate();
+
   
 
-
-  return loading ? (<div className="relative text-center my-auto bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">Loading...</div>) : (
+  return isLoading ? (<div className="relative text-center my-auto bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">Loading...</div>) : (
     <div className="relative bg-cover bg-center min-h-screen bg-opacity-75 bg-custom-outer">
       <div className="relative container mx-auto max-w-6xl p-8 bg-white bg-opacity-40 rounded-lg shadow-md animate-slideUp">
         <div className="mb-6 text-right">

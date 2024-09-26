@@ -8,17 +8,10 @@ const EventDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { events, deleteEvent } = useEventContext();
   const navigate = useNavigate();
-  const event = events.find((e) => e.id === id);
-  const htmlToText = (html: string) => {
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = html;
-    return tempDiv.textContent || "";
-  };
-  
+  const event = events.find((e) => e.id === id);  
 
   if (!event) return <div>Event not found</div>;
   
-
   return (
     <div className="relative bg-cover flex bg-center min-h-screen bg-opacity-75 bg-custom-details"> 
       <div className="absolute inset-0 bg-black bg-opacity-40 animate-fadeIn"></div>
@@ -30,7 +23,9 @@ const EventDetail = () => {
           <span className="font-medium">Date & Time:</span> {new Date(event.dateTime).toLocaleString()}
         </p>
         {event.description &&
-          <div className="text-gray-600 "><span className="font-medium">Description:</span> {htmlToText(event.description)}</div>}
+          <div className="text-gray-600 "><span className="font-medium">Description:</span>
+          <div>{event.description}</div>
+          </div>}
         <p className="text-gray-600 mb-2 animate-fadeInDelay">
           <span className="font-medium">Location:</span> {event.location}
         </p>

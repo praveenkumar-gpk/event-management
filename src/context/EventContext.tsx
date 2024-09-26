@@ -1,102 +1,117 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import {Event} from "../types/type"
 
-
-interface EventContextType {
-  events: Event[];
-  addEvent: (event: Event) => void;
-  updateEvent: (id: string, event: Event) => void;
-  deleteEvent: (id: string) => void;
-  loading:boolean;
-  setLoading:React.Dispatch<React.SetStateAction<boolean>>;
+// Event interface
+interface Event {
+  id: string;
+  name: string;
+  dateTime: string;
+  location: string;
+  capacity: number;
+  description:string
+  image: string;
 }
 
-const EventContext = createContext<EventContextType >({
+// Event context type
+interface EventContextType {
+  events: Event[];
+  addEvent: (newEvent: Event) => Promise<any>;
+  updateEvent: (id: string, updatedEvent: Event) => Promise<any>;
+  deleteEvent: (id: string) => Promise<any>;
+  isLoading:boolean;
+}
+
+const EventContext = createContext<EventContextType>({
   events: [],
-  addEvent: () => {},
-  updateEvent: () => {},
-  deleteEvent: () => {},
-  loading:false,
-  setLoading:()=>{}
+  addEvent: async () => {},
+  updateEvent: async () => {},
+  deleteEvent: async () => {},
+  isLoading:true
 });
 
+// UseEventContext Hook
 export const useEventContext = () => useContext(EventContext);
 
+// EventProvider component using react-query
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [loading,setLoading] = useState(false)
-  const [events, setEvents] = useState<Event[]>([]);
-  const eventCollection = collection(db, "events");
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      setLoading(true);
-      try{
-        const eventSnapshot = await getDocs(eventCollection);
-        const eventList = eventSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Event[];
-        setEvents(eventList);
-        setLoading(false);
-      }catch(error){
-        console.log(error);
-      }    
-    };
-    fetchEvents();
-    
-    
-    
-    
-  }, []);
+  // Fetch events using useQuery
+  const { data: events = [], isLoading,isError,error } = useQuery<Event[], Error>({
+    queryKey: ["events"],
+    queryFn: async () => {
+      const eventCollection = collection(db, "events");
+      const eventSnapshot = await getDocs(eventCollection);     
+      return eventSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Event[];
+    },
+  });
+  
+  
 
+  // Mutation for adding an event
+  const addEventMutation = useMutation<void, Error, Event>({
+    mutationFn: async (newEvent: Event) => {
+      const eventCollection = collection(db, "events");
+      await addDoc(eventCollection, newEvent);  // This function does not need to return anything
+    },
+    onSuccess: () => {
+      // Correct way to invalidate queries
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
+    },
+  });
+  
+  // Mutation for updating an event
+  const updateEventMutation = useMutation<void, Error, { id: string; updatedEvent: Event }>({
+    mutationFn: async ({ id, updatedEvent }) => {
+      const eventDoc = doc(db, "events", id);
+      await updateDoc(eventDoc, {
+        name: updatedEvent.name,
+        dateTime: updatedEvent.dateTime,
+        location: updatedEvent.location,
+        capacity: updatedEvent.capacity,
+        image: updatedEvent.image,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
+    },
+  });
+  
+
+  // Mutation for deleting an event
+  const deleteEventMutation = useMutation<void,Error,string>({
+    mutationFn:async (id)=>{
+    const eventDoc = doc(db, "events", id);
+    await deleteDoc(eventDoc);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["events"],
+      });
+    },
+  });
+
+  // Methods to expose via context
   const addEvent = async (newEvent: Event) => {
-    setLoading(true);
-    try{
-      const docRef = await addDoc(eventCollection, newEvent);
-      setEvents(prevEvents => [...prevEvents, { ...newEvent, id: docRef.id }]);
-      setLoading(false);
-    }
-    catch(error){
-      console.log(error)
-    }
-    
+    addEventMutation.mutateAsync(newEvent);
   };
 
   const updateEvent = async (id: string, updatedEvent: Event) => {
-    setLoading(true)
-    try{
-      const eventDoc = doc(db, "events", id);
-    await updateDoc(eventDoc, {
-      name: updatedEvent.name,
-      dateTime: updatedEvent.dateTime,
-      location: updatedEvent.location,
-      capacity: updatedEvent.capacity,
-      image:updatedEvent.image,
-      description:updatedEvent.description
-    });
-    setEvents(prevEvents => prevEvents.map(event => event.id === id ? updatedEvent : event));
-    setLoading(false)
-    }
-    catch(error){
-      console.log(error)
-    } 
+    await updateEventMutation.mutateAsync({ id, updatedEvent });
   };
 
   const deleteEvent = async (id: string) => {
-    setLoading(true)
-    try{
-      const eventDoc = doc(db, "events", id);
-      await deleteDoc(eventDoc);
-      setEvents(prevEvents => prevEvents.filter(event => event.id !== id));
-      setLoading(false)
-    }
-    catch(error){
-      console.log(error)
-    }
-    
+    deleteEventMutation.mutateAsync(id);
   };
 
   return (
-    <EventContext.Provider value={{ events, addEvent, updateEvent, deleteEvent,loading,setLoading }}>
+    <EventContext.Provider value={{ events, addEvent, updateEvent, deleteEvent,isLoading }}>
       {children}
     </EventContext.Provider>
   );
